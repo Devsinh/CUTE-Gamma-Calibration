@@ -313,7 +313,7 @@ function CalibrationSlider() {
     const handleSetDelay = async () => {
         const delayValue = Number(delay);
         if (delayValue <= 0) {
-            console.warn('Delay must be greater than zero');x
+            console.warn('Delay must be greater than zero');
             return;
         }
 
