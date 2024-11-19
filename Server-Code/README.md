@@ -1,3 +1,5 @@
+The server.js code has to be changed to include the com port of the arduino in the new mini mac
+
 The steps needed to begin the server locally are :-
 
 For Windows:  
