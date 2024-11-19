@@ -1,1 +1,1 @@
-This folder containes different folders that show the progress of the arduino and server code. They are also present so that we can reset to an earlier point if something goes wrong.
+This folder containes different folders that show the progress of the arduino and server code. The name of each folder says what functionality was added. It starts with the stepper motor, then home sensor and finally motion sensor, They are present so that we can reset to an earlier point if something goes wrong.
