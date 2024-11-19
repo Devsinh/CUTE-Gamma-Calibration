@@ -318,7 +318,7 @@ function CalibrationSlider() {
         }
 
         const modifiedDelay = 5805.38 / delayValue;
-        if (modifiedDelay < 50 || modifiedDelay > 5) {
+        if (modifiedDelay < 4000 || modifiedDelay > 50) {
             console.warn('Modified delay must be between 50 and 4000');
             return;
         }
