@@ -1,1 +1,1 @@
-Read
+This arduino code is the first fully complete version but it does not have step counting in it. It instead calculates position using the delay value and a formula. The formula causes there o be a small error in the position.
