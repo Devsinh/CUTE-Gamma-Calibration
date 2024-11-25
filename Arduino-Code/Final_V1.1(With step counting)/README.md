@@ -1,1 +1,1 @@
-cd
+This arduino code is the fully complete version with step counting implemented in it. It calculates position using the steps of the motor and the speed is calculated in the react app side of the code with a manually calculated formula.
