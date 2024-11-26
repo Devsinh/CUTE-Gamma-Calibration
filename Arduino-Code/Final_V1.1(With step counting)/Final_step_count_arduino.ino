@@ -1,6 +1,6 @@
 const int stepPin = 3;        // Clock (step) pin
-const int dirPin = 4;         // Direction pin
-const int onOffPin = 5;       // ON/OFF pin for controlling motor power
+const int dirPin = 5;         // Direction pin
+const int onOffPin = 4;       // ON/OFF pin for controlling motor power
 const int homeSensorPin1 = 7; // Pin for home sensor1
 const int homeSensorPin2 = 8; // Pin for home sensor2
 const int motionSensorPin = A0; // Analog pin for motion sensor
