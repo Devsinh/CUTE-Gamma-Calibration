@@ -8,7 +8,7 @@ const int irLedPin = 12;      // Pin for infrared LED
 
 // Constants
 const int stepsPerRevolution = 1600; // Number of steps for one full rotation of the motor
-const float gearRadius = 2.268;        // Gear radius in cm
+const float gearRadius = 2.268;        // Gear radius in cm, this translates to 11228 steps per 100 cm, each step being one full cycle of high and low
 const float distancePerStep = (2 * PI * gearRadius) / stepsPerRevolution; // Distance moved per step
 
 // Flags and Variables
