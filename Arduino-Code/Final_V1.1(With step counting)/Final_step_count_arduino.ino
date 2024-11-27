@@ -18,7 +18,7 @@ unsigned long lastPrintTime = 0;  // Time of the last motion sensor print
 const unsigned long printInterval = 100; // Print every 100 milliseconds
 const unsigned long positionInterval = 100; // Send position every 100 milliseconds
 
-unsigned long delayValue = 1000; // Initial delay in microseconds
+unsigned long delayValue = 2902; // Initial delay in microseconds, corresponds to 2 cm/s in the code
 float currentPosition = -10.0;      // Current position in cm
 float targetPosition = -10.0;       // Target position in cm
 const float home = -10.0;           // Home position at -10 cm
