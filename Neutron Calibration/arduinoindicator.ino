@@ -167,7 +167,7 @@ void motorFunction()
  
   // Detect right induction sensor (Induction Sensor 1)
   if (voltage1 > 10) {
-    sendSensorData("Right Sensor Triggered", voltage1, -1); // Send data for right sensor
+    sendSensorData("Left Sensor Triggered", voltage1, -1); // Send data for right sensor
     // Your motor control logic when right sensor is triggered
     if (!direction) { // If direction is counterclockwise
       ChangeDirection(); // Change the direction
@@ -181,7 +181,7 @@ void motorFunction()
  
   // Detect left induction sensor (Induction Sensor 2)
   if (voltage2 > 10) {
-    sendSensorData("Left Sensor Triggered", -1, voltage2); // Send data for left sensor
+    sendSensorData("Right Sensor Triggered", -1, voltage2); // Send data for left sensor
     // Your motor control logic when left sensor is triggered
     if (direction) { // If direction is clockwise
       ChangeDirection(); // Change the direction
@@ -387,11 +387,11 @@ void sendSensorData(String event, float rightSensorValue, float leftSensorValue)
   Serial.println(event);
   // Send the status of the sensors to the server
   if (rightSensorValue != -1) {
-    Serial.print("Right Sensor Voltage: ");
+    Serial.print("Left Sensor Voltage: ");
     Serial.println(rightSensorValue);
   }
   if (leftSensorValue != -1) {
-    Serial.print("Left Sensor Voltage: ");
+    Serial.print("Right Sensor Voltage: ");
     Serial.println(leftSensorValue);
   }
  
@@ -408,13 +408,3 @@ void sendSensorData(String event, float rightSensorValue, float leftSensorValue)
   //   }
   // }
 }
-
-
-
-
-
-
-
-
-
-
