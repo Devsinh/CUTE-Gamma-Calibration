@@ -316,7 +316,7 @@ const MotorTab = () => {
             <Grid item>
               {rightSensorPressed && (
                 <Typography variant="h6" color="primary" align="center" gutterBottom>
-                  Right Sensor Pressed
+                  Right Sensor triggered
                 </Typography>
               )}
             </Grid>
@@ -324,7 +324,7 @@ const MotorTab = () => {
             <Grid item>
               {leftSensorPressed && (
                 <Typography variant="h6" color="primary" align="center" gutterBottom>
-                  Left Sensor Pressed
+                  Left Sensor triggered
                 </Typography>
               )}
             </Grid>
