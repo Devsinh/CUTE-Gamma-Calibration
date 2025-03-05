@@ -24,13 +24,7 @@ sender = "cute.facility.alert@gmail.com"
 password = "June_17_2021"
 to = [
     "wrau@triumf.ca",
-    "rchrdgermond@gmail.com",
-    "jeter.hall@snolab.ca",
-    "15jtc@queensu.ca",
     "andy.kubik@snolab.ca",
-    "silvia.scorza@triumf.ca",
-    "jasmine.gauthier@triumf.ca",
-    "muad.ghaith@triumf.ca",
     "chauhandevsinh@gmail.com",
     "matthew.stukel@snolab.ca"
 ]
