@@ -26,7 +26,8 @@ to = [
     "wrau@triumf.ca",
     "andy.kubik@snolab.ca",
     "chauhandevsinh@gmail.com",
-    "matthew.stukel@snolab.ca"
+    "matthew.stukel@snolab.ca",
+    "josemarco.olivares@snolab.ca"
 ]
 
 # Open the serial connection
