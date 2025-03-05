@@ -30,8 +30,9 @@ to = [
     "andy.kubik@snolab.ca",
     "silvia.scorza@triumf.ca",
     "jasmine.gauthier@triumf.ca",
-    "muad.ghaith@triumf.ca"
-    "chauhandevsinh@gmail.com"
+    "muad.ghaith@triumf.ca",
+    "chauhandevsinh@gmail.com",
+    "matthew.stukel@snolab.ca"
 ]
 
 # Open the serial connection
