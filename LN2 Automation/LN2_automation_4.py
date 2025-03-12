@@ -27,11 +27,11 @@ alert_sent = False
 sender = "cute.facility.alert@gmail.com"
 password = "ornp iozd aayv pndh"
 to = [
-    #"wrau@triumf.ca",
-    #"andy.kubik@snolab.ca",
+    "wrau@triumf.ca",
+    "andy.kubik@snolab.ca",
     "dev.chauhan@snolab.ca",
     "matthew.stukel@snolab.ca",
-    #"josemarco.olivares@snolab.ca"
+    "josemarco.olivares@snolab.ca"
 ]
 
 # Open the serial connection
