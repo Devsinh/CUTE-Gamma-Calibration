@@ -168,14 +168,14 @@ def monitor_weights():
                     print(f"Filling... {120 - i} seconds remaining.", end="\r")
                 
                 send_cmd("STOP")
-                print("\nFill complete. Starting 30-second wait...")
+                print("\nFill complete. Starting 60-second wait...")
 
                 # Add this fill minute to our tracking
                 fill_times.append(time.time())
                 
                 # Calculate total fill time in last 6 hours
                 total_fill_minutes = 2 * len(fill_times)
-                print(f"Fill has been going on for {total_fill_minutes}", end="\r")
+                print(f"Fill has been going on for {total_fill_minutes}", end = "\r")
                 
                 # Check if we should send an alert
                 if total_fill_minutes >= alert_threshold_minutes:
@@ -203,9 +203,9 @@ def monitor_weights():
                     alert_sent = True 
                 
                 # Wait for 3 minutes
-                for i in range(30):
+                for i in range(60):
                     time.sleep(1)
-                    print(f"Waiting... {30 - i} seconds remaining")
+                    print(f"Waiting... {60 - i} seconds remaining", end="\r")
                 print("Wait complete.")
                 
                 # Check weight again
