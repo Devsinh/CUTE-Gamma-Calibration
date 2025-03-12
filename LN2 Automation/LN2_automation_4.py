@@ -138,7 +138,7 @@ def monitor_weights():
     while True:
         current_time = time.time()
         big_weight, small_weight = read_weights()
-        print(f"Big Dewar: {big_weight} kg, Small Dewar: {small_weight} kg")
+        print(f"Big Dewar: {big_weight} kg, Small Dewar: {small_weight} kg at {current_time}")
 
         # Remove fill times older than 6 hours
         fill_times = [t for t in fill_times if (current_time - t) < window_duration]
