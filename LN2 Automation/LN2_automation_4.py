@@ -234,8 +234,8 @@ if args.start:
     t = int(60*t_m) #duration in seconds
     
     # Start the weight monitoring in a separate thread
-    weight_monitor_thread = threading.Thread(target=monitor_weights, daemon=True)
-    weight_monitor_thread.start()
+    #weight_monitor_thread = threading.Thread(target=monitor_weights, daemon=True)
+    #weight_monitor_thread.start()
     
     #start filling
     print("Starting fill...")
