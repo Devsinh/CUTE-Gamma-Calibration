@@ -175,7 +175,7 @@ def monitor_weights():
                 
                 # Calculate total fill time in last 6 hours
                 total_fill_minutes = 2 * len(fill_times)
-                print(f"Fill has been going on for {total_fill_minutes}")
+                print(f"Fill has been going on for {total_fill_minutes}", end="\r")
                 
                 # Check if we should send an alert
                 if total_fill_minutes >= alert_threshold_minutes:
