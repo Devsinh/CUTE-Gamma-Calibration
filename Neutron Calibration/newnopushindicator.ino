@@ -289,7 +289,7 @@ void rotateMotor()
 void goToHousing()
 {
   // Set up the movement parameters
-  bool targetDirection = getPosition() > 0; // Move CCW if we're to the right of housing
+  bool targetDirection = getPosition() < 0; // Move CCW if we're to the right of housing
   setDirection(targetDirection);
   
   // Start the movement
