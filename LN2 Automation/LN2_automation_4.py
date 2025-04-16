@@ -21,6 +21,7 @@ alert_threshold1 = target_weight - 3.1 # weight threshold for small dewar in kg
 check_interval = 60  # seconds
 reset_interval = 3 * 3600  # 5 hours in seconds
 alert_sent = False
+alert_sent_big = False
 
 
 # Email configuration
@@ -131,6 +132,7 @@ print(f"Identity query response: {get_resp()}")
 # Function to continuously read weights
 def monitor_weights():
     global alert_sent
+    global alert_sent_big
     fill_times = []  # List to track fill times
     window_duration = 6 * 3600  # 6 hours in seconds
     alert_threshold_minutes = 50  # Alert if filling exceeds 30 minutes in window
@@ -138,15 +140,17 @@ def monitor_weights():
     while True:
         current_time = time.time()
         big_weight, small_weight = read_weights()
-        print(f"Big Dewar: {big_weight} kg, Small Dewar: {small_weight} kg at {current_time}")
+        print(f"Big Dewar: {big_weight} kg, Small Dewar: {small_weight} kg at {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
         # Remove fill times older than 6 hours
         fill_times = [t for t in fill_times if (current_time - t) < window_duration]
 
         # Alert if the big dewar is below threshold
         if big_weight < alert_threshold:
-            print(f"Alert! Big dewar weight is below threshold: {big_weight} kg")
-            send_email(big_weight)
+            if alert_sent_big == False:
+                print(f"Alert! Big dewar weight is below threshold: {big_weight} kg")
+                send_email(big_weight)
+                alert_sent_big = True
 
         # Check and fill small dewar if below threshold
         if small_weight < alert_threshold1:
@@ -179,28 +183,29 @@ def monitor_weights():
                 
                 # Check if we should send an alert
                 if total_fill_minutes >= alert_threshold_minutes:
-                    alert_message = (
-                        f"Warning: System has been filling for {total_fill_minutes} minutes "
-                        f"in the last 6 hours. This exceeds the {alert_threshold_minutes} "
-                        "minute threshold. The system will continue filling but may indicate "
-                        "a leak that needs attention."
-                    )
-                    print(alert_message)
+                    if alert_sent == False:
+                        alert_message = (
+                            f"Warning: System has been filling for {total_fill_minutes} minutes "
+                            f"in the last 6 hours. This exceeds the {alert_threshold_minutes} "
+                            "minute threshold. The system will continue filling but may indicate "
+                            "a leak that needs attention."
+                        )
+                        print(alert_message)
                     
-                    # Send email alert
-                    msg = EmailMessage()
-                    msg["Subject"] = "Warning: Extended LN2 Filling Duration"
-                    msg["From"] = sender
-                    msg["To"] = ", ".join(to)
-                    msg.set_content(alert_message)
+                        # Send email alert
+                        msg = EmailMessage()
+                        msg["Subject"] = "Warning: Extended LN2 Filling Duration"
+                        msg["From"] = sender
+                        msg["To"] = ", ".join(to)
+                        msg.set_content(alert_message)
                     
-                    context = ssl.create_default_context()
-                    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-                        server.starttls(context=context)
-                        server.login(sender, password)
-                        server.send_message(msg)
+                        context = ssl.create_default_context()
+                        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+                            server.starttls(context=context)
+                            server.login(sender, password)
+                            server.send_message(msg)
 
-                    alert_sent = True 
+                        alert_sent = True 
                 
                 # Wait for 3 minutes
                 for i in range(60):
