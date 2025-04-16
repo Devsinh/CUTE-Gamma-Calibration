@@ -12,6 +12,8 @@ const int signalPin = A2; // Motion Sensor Input, signal changes depending on am
 bool overrideOn = false; // To control which motor function is enabled, regualar or overriden
 bool motorControlEnabled = false; // To control the whether the motor can move or not
 bool direction = true; // To control the direction, true counter clockwise, false for clockwise
+bool movingToHousing = false;
+bool movingToDetector = false;
 
 
 // initial values
@@ -61,6 +63,37 @@ void setup()
 void loop()
 {
   overrideOn ? motorFunctionOverriden() : motorFunction(); //Use regular motor function when override is off, Use overriden motor function when override is on
+
+    if (movingToHousing) {
+    if (!motorControlEnabled) {
+      movingToHousing = false; // Stop if motor control disabled
+    } else if (getPosition() >= -0.001 && getPosition() <= 0.001) {
+      // Target reached
+      digitalWrite(onoffPin, LOW);
+      SetMotorControlEnabled(false);
+      movingToHousing = false;
+      Serial.println("Housing position reached");
+    } else {
+      // Continue moving (direction already set in goToHousing)
+      rotateMotor();
+    }
+  }
+  
+  // Handle movement to detector if active
+  if (movingToDetector) {
+    if (!motorControlEnabled) {
+      movingToDetector = false; // Stop if motor control disabled
+    } else if (getPosition() >= 3.039 && getPosition() <= 3.041) {
+      // Target reached
+      digitalWrite(onoffPin, LOW);
+      SetMotorControlEnabled(false);
+      movingToDetector = false;
+      Serial.println("Detector position reached");
+    } else {
+      // Continue moving (direction already set in goToDetector)
+      rotateMotor();
+    }
+  }
 
   readCommand(); // Read the commands from the Webapp and change values accordingly
 
@@ -140,7 +173,7 @@ void readCommand()
 
 
 // General function to control the motor
-void motorFunction()
+void ()
 {
   int sensorValue1 = analogRead(inductionSensorPin1); // Get the value from the right induction sensor
   float voltage1 = sensorValue1 * (12.0 / 1023.0);   // Convert to voltage
@@ -212,7 +245,7 @@ void motorFunction()
 }
 
 // Overriden fucntion to control the motor
-void motorFunctionOverriden()
+void Overriden()
 {
   if (motorControlEnabled) // Check if motor control is allowed
   {  
@@ -247,32 +280,19 @@ void rotateMotor()
 
 // Send the source to the housing
 void goToHousing()
-{
-  bool targetDirection = getPosition() < 0; // Determine the direction based on the current position
+ {
+  // Set up the movement parameters
+  bool targetDirection = getPosition() > 0; // Move CCW if we're to the right of housing
   setDirection(targetDirection);
-
-  SetMotorControlEnabled(true); // Start moving towards the target
-
-  bool targetReached = false; // Flag to keep track of whether the target has been reached
-
-  while(!targetReached) {
-    if (!motorControlEnabled) { // Check if motor control has been disabled (Stop command received)
-      digitalWrite(onoffPin, LOW); // Stop the motor immediately
-      SetMotorControlEnabled(false); // Disable further motor control
-      return; // Exit the function immediately
-    }
-
-    rotateMotor(); // Rotate the motor
-    updatePosition(); // Update the current position
-
-    if(getPosition() >= -0.001 && getPosition() <= 0.001) { // Check if the target position is reached
-      digitalWrite(onoffPin, LOW); // Stop the motor
-      SetMotorControlEnabled(false); // Disable further motor control
-      targetReached = true; // Set the flag to exit the loop
-    }
-
-    delay(1); // Adjust this delay as needed
-  }
+  
+  // Start the movement
+  SetMotorControlEnabled(true);
+  
+  // Set flag to indicate we're moving to housing
+  movingToHousing = true;
+  movingToDetector = false; // Make sure the other flag is off
+  
+  Serial.println("Moving to housing position");
 }
 
 
@@ -280,31 +300,18 @@ void goToHousing()
 // Send the source to the housing
 void goToDetector()
 {
-  bool targetDirection = getPosition() < 3.04; // Determine the direction based on the current position
+  // Set up the movement parameters
+  bool targetDirection = getPosition() < 3.04; // Move CW if we're to the left of detector
   setDirection(targetDirection);
-
-  SetMotorControlEnabled(true); // Start moving towards the target
-
-  bool targetReached = false; // Flag to keep track of whether the target has been reached
-
-  while(!targetReached) { // Update the motor state without blocking
-    if (!motorControlEnabled) { // Check if motor control has been disabled (Stop command received)
-      digitalWrite(onoffPin, LOW); // Stop the motor immediately
-      SetMotorControlEnabled(false); // Disable further motor control
-      return; // Exit the function immediately
-    }
-
-    rotateMotor(); // Rotate the motor
-    updatePosition(); // Update the current position
-
-    if(getPosition() >= 3.039 && getPosition() <= 3.041) { // Check if the target position is reached
-      digitalWrite(onoffPin, LOW); // Stop the motor
-      SetMotorControlEnabled(false); // Disable further motor control
-      targetReached = true; // Set the flag to exit the loop
-    }
-
-    delay(1); // Adjust this delay as needed
-  }
+  
+  // Start the movement
+  SetMotorControlEnabled(true);
+  
+  // Set flag to indicate we're moving to detector
+  movingToDetector = true;
+  movingToHousing = false; // Make sure the other flag is off
+  
+  Serial.println("Moving to detector position");
 }
 
 
