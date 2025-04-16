@@ -76,7 +76,7 @@ void loop()
       Serial.println("Housing position reached");
     } else {
       // Check if we need to change direction
-      bool targetDirection = getPosition() > 0;
+      bool targetDirection = getPosition() < 0;
       setDirection(targetDirection);
       
       // Continue moving
