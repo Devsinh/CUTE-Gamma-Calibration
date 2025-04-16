@@ -64,7 +64,8 @@ void loop()
 {
   overrideOn ? motorFunctionOverriden() : motorFunction(); //Use regular motor function when override is off, Use overriden motor function when override is on
 
-    if (movingToHousing) {
+  // Handle movement to housing if active
+  if (movingToHousing) {
     if (!motorControlEnabled) {
       movingToHousing = false; // Stop if motor control disabled
     } else if (getPosition() >= -0.001 && getPosition() <= 0.001) {
@@ -74,7 +75,11 @@ void loop()
       movingToHousing = false;
       Serial.println("Housing position reached");
     } else {
-      // Continue moving (direction already set in goToHousing)
+      // Check if we need to change direction
+      bool targetDirection = getPosition() > 0;
+      setDirection(targetDirection);
+      
+      // Continue moving
       rotateMotor();
     }
   }
@@ -90,7 +95,11 @@ void loop()
       movingToDetector = false;
       Serial.println("Detector position reached");
     } else {
-      // Continue moving (direction already set in goToDetector)
+      // Check if we need to change direction
+      bool targetDirection = getPosition() < 3.04;
+      setDirection(targetDirection);
+      
+      // Continue moving
       rotateMotor();
     }
   }
@@ -148,11 +157,9 @@ void readCommand()
     }
 
     else if (command == "goToHousing"){
-
       goToHousing();
     }
     else if (command == "goToDetector"){
-
       goToDetector();
     }
 
@@ -173,7 +180,7 @@ void readCommand()
 
 
 // General function to control the motor
-void ()
+void motorFunction()
 {
   int sensorValue1 = analogRead(inductionSensorPin1); // Get the value from the right induction sensor
   float voltage1 = sensorValue1 * (12.0 / 1023.0);   // Convert to voltage
@@ -245,7 +252,7 @@ void ()
 }
 
 // Overriden fucntion to control the motor
-void Overriden()
+void motorFunctionOverriden()
 {
   if (motorControlEnabled) // Check if motor control is allowed
   {  
@@ -280,7 +287,7 @@ void rotateMotor()
 
 // Send the source to the housing
 void goToHousing()
- {
+{
   // Set up the movement parameters
   bool targetDirection = getPosition() > 0; // Move CCW if we're to the right of housing
   setDirection(targetDirection);
@@ -296,8 +303,7 @@ void goToHousing()
 }
 
 
-
-// Send the source to the housing
+// Send the source to the detector
 void goToDetector()
 {
   // Set up the movement parameters
@@ -374,8 +380,6 @@ void updatePosition()
 // Function to update the signal from the motion sensor on the webapp
 void updateSignal()
 {
-
-
   signal = analogRead(signalPin); // Update the signal variable
   if (millis() - lastSendTime > sendInterval)// Check if the current time minus the last recorded time is greater than the predefined interval 
     {
@@ -384,11 +388,9 @@ void updateSignal()
 
       lastSendTime = millis();// Update lastSendTime to the current time, resetting the timer for the next interval
     }
-    
 }
 
 
- 
 // Function to send the status of the sensors and push button to the server
 void sendSensorData(String event, float rightSensorValue, float leftSensorValue) {
   // Send a message indicating the push button or induction sensor event
