@@ -28,8 +28,8 @@ alert_sent = False
 alert_sent_big = False
 alert_sent_big_stop = False
 
-SLACK_WEBHOOK_URL = ''#'https://hooks.slack.com/services/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'
-SLACK_WEBHOOK_CUTE_ALARMS = ''#'https://hooks.slack.com/services/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'
+SLACK_WEBHOOK_URL = ''#'add webhook here'
+SLACK_WEBHOOK_CUTE_ALARMS = ''#'add webhook here'
 
 fill_stop_event = threading.Event()
 
